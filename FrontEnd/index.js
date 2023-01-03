@@ -30,11 +30,41 @@ fetch(`http://localhost:5678/api/works`)
 		console.log(figure);
 
 		const objets = document.getElementById('objets');
+		const apparts = document.getElementById('apparts');
+		const hotelresto = document.getElementById('hotelresto');
+		const tous = document.getElementById('tous');
 		console.log(objets);
 		objets.addEventListener('click', function () {
 			for (let i = 0; i < newArray.length; i++) {
-				if (newArray[i] == 1) {
-					figure[i].remove();
+				if (newArray[i] !== 1) {
+					figure[i].style.display = 'none';
+				} else if (newArray[i] == 1) {
+					figure[i].style.display = 'initial';
+				}
+			}
+		});
+		apparts.addEventListener('click', function () {
+			for (let i = 0; i < newArray.length; i++) {
+				if (newArray[i] !== 2) {
+					figure[i].style.display = 'none';
+				} else if (newArray[i] == 2) {
+					figure[i].style.display = 'initial';
+				}
+			}
+		});
+		hotelresto.addEventListener('click', function () {
+			for (let i = 0; i < newArray.length; i++) {
+				if (newArray[i] !== 3) {
+					figure[i].style.display = 'none';
+				} else if (newArray[i] == 3) {
+					figure[i].style.display = 'initial';
+				}
+			}
+		});
+		tous.addEventListener('click', function () {
+			for (let i = 0; i < newArray.length; i++) {
+				if (newArray[i] !== 0) {
+					figure[i].style.display = 'initial';
 				}
 			}
 		});
