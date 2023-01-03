@@ -17,6 +17,15 @@ fetch(`http://localhost:5678/api/works`)
 			console.log(gallery);
 			gallery.appendChild(newProject);
 		}
+		return fetch(`http://localhost:5678/api/categories`);
+	})
+	.then(function (cat) {
+		if (cat.ok) {
+			return cat.json();
+		}
+	})
+	.then(function (categories) {
+		console.log(categories);
 	})
 
 	.catch(function (err) {
