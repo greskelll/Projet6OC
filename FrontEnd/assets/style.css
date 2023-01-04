@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background: #FFFEF8;
 }
 ol, ul {
 	list-style: none;
@@ -52,6 +53,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	margin-bottom: 50px;
 }
 header {
 	display: flex;
@@ -206,5 +208,50 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+
+#footer-final {
+	position: fixed;
+    height: 60px;
+    background: white;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+}
+
+
+/* css login*/
+form input {
+	display: flex;
+	align-items: center;
+	padding: 10px 20px;
+	border: none;
+	font-size: 14px;
+}
+
+.form{
+	display: flex;
+	flex-direction: column;
+	margin: 40px;
+}
+
+.form input{
+	width: 360px;
+	height:30px;
+	border:none;
+	box-shadow:1px 5px 5px 1px #e9e9e9 ;
+	margin: 10px auto;
+}
+
+.login {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.login a {
+	color:inherit;
 }
 
