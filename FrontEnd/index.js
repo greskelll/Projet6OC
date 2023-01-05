@@ -73,3 +73,21 @@ fetch(`http://localhost:5678/api/works`)
 	.catch(function (err) {
 		console.log('erreur fetch api');
 	});
+
+/* login */
+
+let userEmail = document.getElementById('email').value;
+let userPassword = document.getElementById('password').value;
+
+fetch('http://localhost:5678/api/users/login', {
+	method: 'POST',
+	body: JSON.stringify({
+		email: userEmail,
+		password: 'S0phie',
+	}),
+	headers: {
+		'Content-type': 'application/json; charset=UTF-8',
+	},
+})
+	.then((response) => response.json())
+	.then((json) => console.log(json));
