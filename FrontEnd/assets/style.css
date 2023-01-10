@@ -77,7 +77,6 @@ h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
 
 h2{
@@ -95,6 +94,11 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+}
+
+a{
+	text-decoration: none;
+	color:inherit;
 }
 
 li:hover {
@@ -253,4 +257,13 @@ form input {
 .login a {
 	color:inherit;
 }
+
+#editHeader {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	background-color: black;
+	color:white;
+}
+
 
