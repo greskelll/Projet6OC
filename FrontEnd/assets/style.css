@@ -49,7 +49,7 @@ table {
 }
 /** end reset css**/
 body {
-	max-width: 1140px;
+	width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
@@ -127,10 +127,7 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
-}
+
 .categories{
 	display:flex;
 	flex-direction: row;
@@ -262,8 +259,44 @@ form input {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	align-items: center;
 	background-color: black;
 	color:white;
+	padding:3px;
+	font-size:16px ;
+	
 }
+
+#editHeader input{
+	background: white;
+	border:0px;
+	border-radius: 25px;
+	padding: 15px;
+	font-family:'Work sans' ;
+	font-size: 14px;
+	font-weight:500 ;
+	margin:10px;
+}
+#editHeader p {
+	margin: 15px;
+}
+
+#myProject{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#myProject h2{
+	margin: 20px;
+}
+#myProject p{
+	margin: 6px;
+}
+
+#modifyProject{
+	display: flex;
+	align-items: center;
+}
+
 
 
