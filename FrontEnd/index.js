@@ -73,3 +73,57 @@ fetch(`http://localhost:5678/api/works`)
 	.catch(function (err) {
 		console.log('erreur fetch api');
 	});
+
+/* login */
+
+let myToken;
+let form = document.getElementById('form2');
+if (form === null) {
+	console.log('you are not on logged in');
+} else {
+	form.addEventListener('submit', function (e) {
+		e.preventDefault();
+		let userEmail = document.getElementById('email').value;
+		let userPassword = document.getElementById('password').value;
+
+		fetch('http://localhost:5678/api/users/login', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: userEmail,
+				password: userPassword,
+			}),
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+		})
+			.then(function (response) {
+				if (response.ok) {
+					return response.json();
+				} else {
+					alert('erreur email / mot de passe');
+				}
+			})
+			.then((data) => {
+				myToken = data.token;
+			})
+			.then(() => {
+				console.log(myToken);
+				localStorage.setItem('token', myToken);
+				document.location = `index.html?jwt=${myToken}`;
+			});
+	});
+}
+let editHeader = document.getElementById('editHeader');
+let log = document.getElementById('log');
+console.log(editHeader);
+if (localStorage.getItem('token') === null) {
+	editHeader.style.display = 'none';
+} else {
+	editHeader.style.display = 'flex';
+	log.innerHTML = '<a href="login.html" >logout</a>';
+	log.addEventListener('click', function (e) {
+		e.preventDefault();
+		localStorage.clear();
+		location.reload();
+	});
+}
