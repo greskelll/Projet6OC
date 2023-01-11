@@ -134,7 +134,7 @@ if (localStorage.getItem('token') === null) {
 let openModify = document.getElementById('openModify');
 openModify.addEventListener('click', () => {
 	let modal = document.getElementById('modal');
-	modal.style.display = 'block';
+	modal.style.display = 'flex';
 });
 
 let closeModify = document.getElementById('closeModify');
@@ -142,3 +142,23 @@ closeModify.addEventListener('click', () => {
 	let modal = document.getElementById('modal');
 	modal.style.display = 'none';
 });
+
+fetch(`http://localhost:5678/api/works`)
+	.then(function (res) {
+		if (res.ok) {
+			return res.json();
+		}
+	})
+	.then(function (value) {
+		for (let i = 0; i < value.length; i++) {
+			const actualProject = document.createElement('figure');
+			actualProject.innerHTML = `<img crossorigin="anonymous" src="${value[i].imageUrl}" alt="${value[i].title}">`;
+			const modalContent = document
+				.getElementsByClassName('modalContent')
+				.item(0);
+			modalContent.appendChild(actualProject);
+		}
+	})
+	.catch(function (err) {
+		console.log('erreur fetch api');
+	});
