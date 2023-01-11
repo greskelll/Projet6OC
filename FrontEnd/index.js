@@ -100,7 +100,7 @@ if (form === null) {
 				if (response.ok) {
 					return response.json();
 				} else {
-					alert('erreur email / mot de passe');
+					alert('Erreur dans l’identifiant ou le mot de passe');
 				}
 			})
 			.then((data) => {
@@ -130,3 +130,15 @@ if (localStorage.getItem('token') === null) {
 		location.reload();
 	});
 }
+
+let openModify = document.getElementById('openModify');
+openModify.addEventListener('click', () => {
+	let modal = document.getElementById('modal');
+	modal.style.display = 'block';
+});
+
+let closeModify = document.getElementById('closeModify');
+closeModify.addEventListener('click', () => {
+	let modal = document.getElementById('modal');
+	modal.style.display = 'none';
+});

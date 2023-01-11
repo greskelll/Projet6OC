@@ -298,5 +298,20 @@ form input {
 	align-items: center;
 }
 
+/* modal */
+
+#modal{
+	display: none;
+	position: fixed;
+	z-index: 1;
+	width: 630px;
+	height: 730px;
+	background: white;
+}
+
+#openModify, #closeModify{
+	cursor: pointer;
+}
+
 
 
