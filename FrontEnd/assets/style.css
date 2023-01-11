@@ -298,5 +298,60 @@ form input {
 	align-items: center;
 }
 
+/* modal */
+
+#modal{
+	display: none;
+	position: fixed;
+	z-index: 1;
+	width: 630px;
+	height: 730px;
+	background: white;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 15px;
+}
+
+#openModify, #closeModify{
+	cursor: pointer;
+}
+
+#closeModify{
+	font-size: 24px;
+	margin: 10px 20px;
+}
+
+.modalContent{
+	display: flex;
+	flex-wrap:wrap ;
+	padding-bottom: 20px;
+	border-bottom: 1px solid black;
+	width:420px;
+}
+
+.modalContent img{
+	width:100px;
+	height:130px;
+	object-fit: cover;
+}
+.modalContent h3{
+	text-align: center;
+	font-size: large;
+	margin: 15px;
+}
+.modalTitle{
+	width:100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#addImg {
+	padding:15px;
+}
+
+
+
 
 

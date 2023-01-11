@@ -79,7 +79,7 @@ fetch(`http://localhost:5678/api/works`)
 let myToken;
 let form = document.getElementById('form2');
 if (form === null) {
-	console.log('you are not on logged in');
+	console.log('you are not on logged in or in the login page');
 } else {
 	form.addEventListener('submit', function (e) {
 		e.preventDefault();
@@ -100,7 +100,7 @@ if (form === null) {
 				if (response.ok) {
 					return response.json();
 				} else {
-					alert('erreur email / mot de passe');
+					alert('Erreur dans l’identifiant ou le mot de passe');
 				}
 			})
 			.then((data) => {
@@ -130,3 +130,55 @@ if (localStorage.getItem('token') === null) {
 		location.reload();
 	});
 }
+
+let openModify = document.getElementById('openModify');
+openModify.addEventListener('click', () => {
+	let modal = document.getElementById('modal');
+	modal.style.display = 'flex';
+});
+
+let closeModify = document.getElementById('closeModify');
+closeModify.addEventListener('click', () => {
+	let modal = document.getElementById('modal');
+	modal.style.display = 'none';
+});
+
+fetch(`http://localhost:5678/api/works`)
+	.then(function (res) {
+		if (res.ok) {
+			return res.json();
+		}
+	})
+	.then(function (value) {
+		for (let i = 0; i < value.length; i++) {
+			const actualProject = document.createElement('figure');
+			actualProject.innerHTML = `<img crossorigin="anonymous" src="${value[i].imageUrl}" alt="${value[i].title}">`;
+			const modalContent = document
+				.getElementsByClassName('modalContent')
+				.item(0);
+			modalContent.appendChild(actualProject);
+		}
+	})
+	.catch(function (err) {
+		console.log('erreur fetch api');
+	});
+
+function closeModal() {
+	modal.style.display = 'none';
+}
+function closeModalFunction() {
+	document.addEventListener(
+		'click',
+		function (event) {
+			if (
+				event.target.matches('#closeModify') ||
+				!event.target.closest('#modal')
+			) {
+				closeModal();
+			}
+		},
+		true /* trigger on capture phase instead of bubbling*/
+	);
+}
+
+closeModalFunction();
