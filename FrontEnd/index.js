@@ -79,7 +79,7 @@ fetch(`http://localhost:5678/api/works`)
 let myToken;
 let form = document.getElementById('form2');
 if (form === null) {
-	console.log('you are not on logged in');
+	console.log('you are not on logged in or in the login page');
 } else {
 	form.addEventListener('submit', function (e) {
 		e.preventDefault();
@@ -162,3 +162,23 @@ fetch(`http://localhost:5678/api/works`)
 	.catch(function (err) {
 		console.log('erreur fetch api');
 	});
+
+function closeModal() {
+	modal.style.display = 'none';
+}
+function closeModalFunction() {
+	document.addEventListener(
+		'click',
+		function (event) {
+			if (
+				event.target.matches('#closeModify') ||
+				!event.target.closest('#modal')
+			) {
+				closeModal();
+			}
+		},
+		true /* trigger on capture phase instead of bubbling*/
+	);
+}
+
+closeModalFunction();

@@ -310,6 +310,7 @@ form input {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	border-radius: 15px;
 }
 
 #openModify, #closeModify{
@@ -349,6 +350,7 @@ form input {
 #addImg {
 	padding:15px;
 }
+
 
 
 
