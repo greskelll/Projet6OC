@@ -264,6 +264,11 @@ form input {
 	color:white;
 	padding:3px;
 	font-size:16px ;
+	position: absolute;
+	left: 0;
+	right:0;
+	top:0;
+	margin-bottom: 100px;
 	
 }
 

@@ -96,9 +96,10 @@ if (form === null) {
 			});
 	});
 }
-let editHeader = document.getElementById('editHeader');
-let log = document.getElementById('log');
-let modifyProject = document.getElementById('modifyProject');
+const editHeader = document.getElementById('editHeader');
+const log = document.getElementById('log');
+const modifyProject = document.getElementById('modifyProject');
+const header = document.getElementById('classicHeader');
 console.log(editHeader);
 if (localStorage.getItem('token') === null) {
 	editHeader.style.display = 'none';
@@ -106,6 +107,7 @@ if (localStorage.getItem('token') === null) {
 } else {
 	editHeader.style.display = 'flex';
 	modifyProject.style.display = 'flex';
+	header.style.margin = '100px 0';
 	log.innerHTML = '<a href="login.html" >logout</a>';
 	log.addEventListener('click', function (e) {
 		e.preventDefault();
