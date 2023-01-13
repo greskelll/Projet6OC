@@ -7,72 +7,55 @@ fetch(`http://localhost:5678/api/works`)
 	.then(function (value) {
 		for (let i = 0; i < value.length; i++) {
 			const newProject = document.createElement('figure');
-			newProject.innerHTML = `<img crossorigin="anonymous" src="${value[i].imageUrl}" alt="${value[i].title}">
-				<figcaption>${value[i].title}</figcaption>`;
+			newProject.innerHTML = `<img crossorigin="anonymous" title=${value[i].id} src="${value[i].imageUrl}" alt="${value[i].title}">
+				<figcaption>${value[i].title} </figcaption> `;
 			const gallery = document.getElementsByClassName('gallery').item(0);
 			gallery.appendChild(newProject);
 		}
 
-		return fetch(`http://localhost:5678/api/works`);
+		galleryPick(value);
 	})
-	.then(function (res) {
-		if (res.ok) {
-			return res.json();
-		}
-	})
-	.then(function (res) {
-		let newArray = [];
-		for (i in res) {
-			newArray.push(res[i].categoryId);
-		}
-		console.log(newArray);
-		let figure = document.querySelectorAll('.gallery figure');
-		console.log(figure);
-
-		const objets = document.getElementById('objets');
-		const apparts = document.getElementById('apparts');
-		const hotelresto = document.getElementById('hotelresto');
-		const tous = document.getElementById('tous');
-		console.log(objets);
-		objets.addEventListener('click', function () {
-			for (let i = 0; i < newArray.length; i++) {
-				if (newArray[i] !== 1) {
-					figure[i].style.display = 'none';
-				} else if (newArray[i] == 1) {
-					figure[i].style.display = 'initial';
-				}
-			}
-		});
-		apparts.addEventListener('click', function () {
-			for (let i = 0; i < newArray.length; i++) {
-				if (newArray[i] !== 2) {
-					figure[i].style.display = 'none';
-				} else if (newArray[i] == 2) {
-					figure[i].style.display = 'initial';
-				}
-			}
-		});
-		hotelresto.addEventListener('click', function () {
-			for (let i = 0; i < newArray.length; i++) {
-				if (newArray[i] !== 3) {
-					figure[i].style.display = 'none';
-				} else if (newArray[i] == 3) {
-					figure[i].style.display = 'initial';
-				}
-			}
-		});
-		tous.addEventListener('click', function () {
-			for (let i = 0; i < newArray.length; i++) {
-				if (newArray[i] !== 0) {
-					figure[i].style.display = 'initial';
-				}
-			}
-		});
-	})
-
-	.catch(function (err) {
+	.catch(function () {
 		console.log('erreur fetch api');
 	});
+
+function galleryPick(res) {
+	let newArray = [];
+	for (i in res) {
+		newArray.push(res[i].categoryId);
+	}
+	console.log(newArray);
+	let figure = document.querySelectorAll('.gallery figure');
+	console.log(figure);
+
+	const objets = document.getElementById('objets');
+	const apparts = document.getElementById('apparts');
+	const hotelresto = document.getElementById('hotelresto');
+	const tous = document.getElementById('tous');
+
+	function setCategory(categoryId) {
+		for (let i = 0; i < newArray.length; i++) {
+			if (newArray[i] !== categoryId) {
+				figure[i].style.display = 'none';
+			} else if (newArray[i] == categoryId) {
+				figure[i].style.display = 'initial';
+			}
+		}
+	}
+
+	console.log(objets);
+	objets.addEventListener('click', () => setCategory(1));
+	apparts.addEventListener('click', () => setCategory(2));
+	hotelresto.addEventListener('click', () => setCategory(3));
+
+	tous.addEventListener('click', function () {
+		for (let i = 0; i < newArray.length; i++) {
+			if (newArray[i] !== 0) {
+				figure[i].style.display = 'initial';
+			}
+		}
+	});
+}
 
 /* login */
 
@@ -109,7 +92,7 @@ if (form === null) {
 			.then(() => {
 				console.log(myToken);
 				localStorage.setItem('token', myToken);
-				document.location = `index.html?jwt=${myToken}`;
+				document.location = `index.html`;
 			});
 	});
 }
@@ -150,16 +133,20 @@ fetch(`http://localhost:5678/api/works`)
 		}
 	})
 	.then(function (value) {
+		const modalContent = document
+			.getElementsByClassName('modalContent')
+			.item(0);
+		const newDiv = document.createElement('div');
+		newDiv.className = 'projectImg';
+		modalContent.appendChild(newDiv);
 		for (let i = 0; i < value.length; i++) {
 			const actualProject = document.createElement('figure');
-			actualProject.innerHTML = `<img crossorigin="anonymous" src="${value[i].imageUrl}" alt="${value[i].title}">`;
-			const modalContent = document
-				.getElementsByClassName('modalContent')
-				.item(0);
-			modalContent.appendChild(actualProject);
+			actualProject.innerHTML = `<img class=modImg title=${value[i].id} crossorigin="anonymous" src="${value[i].imageUrl}" alt="${value[i].title}">
+			<i class="fa-regular fa-trash-can"></i><p>éditer</p>`;
+			newDiv.appendChild(actualProject);
 		}
 	})
-	.catch(function (err) {
+	.catch(function () {
 		console.log('erreur fetch api');
 	});
 
@@ -167,18 +154,30 @@ function closeModal() {
 	modal.style.display = 'none';
 }
 function closeModalFunction() {
-	document.addEventListener(
-		'click',
-		function (event) {
-			if (
-				event.target.matches('#closeModify') ||
-				!event.target.closest('#modal')
-			) {
-				closeModal();
-			}
-		},
-		true /* trigger on capture phase instead of bubbling*/
-	);
+	document.addEventListener('click', function (event) {
+		if (
+			event.target.matches('#closeModify') ||
+			event.target.matches('#modal')
+		) {
+			closeModal();
+		}
+	});
 }
 
 closeModalFunction();
+
+let click = 0;
+
+document.addEventListener('click', function (event) {
+	if (event.target.matches('.fa-trash-can')) {
+		click += 1;
+		let deleteFigure = event.target.closest('figure');
+		localStorage.setItem(`id${click}`, deleteFigure.firstChild.title);
+		deleteFigure.style.display = 'none';
+	}
+});
+
+window.onbeforeunload = function () {
+	localStorage.clear();
+	/* logout admin if page refresh */
+};
