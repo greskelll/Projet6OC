@@ -289,9 +289,6 @@ form input {
 #myProject h2{
 	margin: 20px;
 }
-#myProject p{
-	margin: 6px;
-}
 
 #modifyProject{
 	display: flex;
@@ -302,15 +299,14 @@ form input {
 
 #modal{
 	display: none;
-	position: fixed;
-	z-index: 1;
-	width: 630px;
-	height: 730px;
-	background: white;
-	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	border-radius: 15px;
+	justify-content: center;
+	position: fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height:100%;
+	background: rgba(0, 0, 0, 0.6);	
 }
 
 #openModify, #closeModify{
@@ -324,21 +320,32 @@ form input {
 
 .modalContent{
 	display: flex;
-	flex-wrap:wrap ;
-	padding-bottom: 20px;
-	border-bottom: 1px solid black;
-	width:420px;
+	flex-flow: row wrap;
+	width: 630px;
+	height: 730px;
+	padding: 20px;
+	justify-content: center;
+	align-items: center;
+	border-radius: 15px;
+	background: white;
 }
 
 .modalContent img{
 	width:100px;
 	height:130px;
 	object-fit: cover;
+	
 }
 .modalContent h3{
 	text-align: center;
 	font-size: large;
 	margin: 15px;
+	align-self: flex-start;
+}
+
+.modalContent figure{
+	position: relative;
+	margin: 7px;
 }
 .modalTitle{
 	width:100%;
@@ -349,6 +356,31 @@ form input {
 
 #addImg {
 	padding:15px;
+	order:1;
+	
+}
+
+.projectImg{
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	margin: 30px;
+	padding-bottom: 50px;
+	border-bottom: 1px solid black;
+}
+
+.fa-trash-can{
+position: absolute;
+border-radius: 3px;
+background-color: black;
+padding: 4px;
+display: flex;
+justify-content: center;
+align-items: center;
+top: 10px;
+right: 10px;
+color:white;
+cursor: pointer;
 }
 
 
