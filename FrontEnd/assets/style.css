@@ -22,6 +22,8 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+	
+	
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -31,6 +33,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	background: #FFFEF8;
+	overflow-x: hidden;
 }
 ol, ul {
 	list-style: none;
@@ -222,6 +225,16 @@ footer nav ul {
     right: 0px;
     margin-bottom: 0px;
 }
+#footer-index {
+    background: white;
+	width: 100vw;
+	margin-bottom: -50px;
+  	position: relative;
+  	left: calc(-50vw + 50%);
+	display: flex;
+	justify-content: flex-end;
+}
+
 
 form input {
 	display: flex;
