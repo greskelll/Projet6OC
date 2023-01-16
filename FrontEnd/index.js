@@ -60,7 +60,7 @@ function galleryPick(res) {
 /* login */
 
 let myToken;
-let form = document.getElementById('form2');
+const form = document.getElementById('form2');
 if (form === null) {
 	console.log('you are not on logged in or in the login page');
 } else {
@@ -184,12 +184,20 @@ window.onbeforeunload = function () {
 	/* logout admin if page refresh */
 };
 
+const myHeaders = new Headers();
+
 const validateChanges = document.getElementById('publishChanges');
 validateChanges.addEventListener('click', () => {
 	if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
 		for (i = 0; i < localStorage.length; i++) {
-			if (localStorage.getItem(`id${i}`) !== null) {
-				console.log(localStorage.getItem(`id${i}`));
+			let projectDelete = localStorage.getItem(`id${i}`);
+			if (projectDelete !== null) {
+				myToken = localStorage.getItem('token');
+				myHeaders.append('Authorization', `Bearer ${myToken}`);
+				fetch(`http://localhost:5678/api/works/${projectDelete}`, {
+					method: 'DELETE',
+					headers: myHeaders,
+				}).then((response) => response.json());
 			}
 		}
 	} else {
