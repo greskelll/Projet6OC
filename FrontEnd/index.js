@@ -183,3 +183,16 @@ window.onbeforeunload = function () {
 	localStorage.clear();
 	/* logout admin if page refresh */
 };
+
+const validateChanges = document.getElementById('publishChanges');
+validateChanges.addEventListener('click', () => {
+	if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
+		for (i = 0; i < localStorage.length; i++) {
+			if (localStorage.getItem(`id${i}`) !== null) {
+				console.log(localStorage.getItem(`id${i}`));
+			}
+		}
+	} else {
+		alert(`vos modifications n'ont pas été envoyé`);
+	}
+});
