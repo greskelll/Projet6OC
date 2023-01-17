@@ -1,23 +1,28 @@
-fetch(`http://localhost:5678/api/works`)
-	.then(function (res) {
-		if (res.ok) {
-			return res.json();
-		}
-	})
-	.then(function (value) {
-		for (let i = 0; i < value.length; i++) {
-			const newProject = document.createElement('figure');
-			newProject.innerHTML = `<img crossorigin="anonymous" title=${value[i].id} src="${value[i].imageUrl}" alt="${value[i].title}">
+const updateGallery = () => {
+	fetch(`http://localhost:5678/api/works`)
+		.then(function (res) {
+			if (res.ok) {
+				return res.json();
+			}
+		})
+		.then(function (value) {
+			for (let i = 0; i < value.length; i++) {
+				const newProject = document.createElement('figure');
+				newProject.innerHTML = `<img crossorigin="anonymous" title=${value[i].id} src="${value[i].imageUrl}" alt="${value[i].title}">
 				<figcaption>${value[i].title} </figcaption> `;
-			const gallery = document.getElementsByClassName('gallery').item(0);
-			gallery.appendChild(newProject);
-		}
+				const gallery = document
+					.getElementsByClassName('gallery')
+					.item(0);
+				gallery.appendChild(newProject);
+			}
 
-		galleryPick(value);
-	})
-	.catch(function () {
-		console.log('erreur fetch api');
-	});
+			galleryPick(value);
+		})
+		.catch(function () {
+			console.log('erreur fetch api');
+		});
+};
+updateGallery();
 
 function galleryPick(res) {
 	let newArray = [];
@@ -61,41 +66,47 @@ function galleryPick(res) {
 
 let myToken;
 const form = document.getElementById('form2');
-if (form === null) {
-	console.log('you are not on logged in or in the login page');
-} else {
-	form.addEventListener('submit', function (e) {
-		e.preventDefault();
-		let userEmail = document.getElementById('email').value;
-		let userPassword = document.getElementById('password').value;
 
-		fetch('http://localhost:5678/api/users/login', {
-			method: 'POST',
-			body: JSON.stringify({
-				email: userEmail,
-				password: userPassword,
-			}),
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-			},
-		})
-			.then(function (response) {
-				if (response.ok) {
-					return response.json();
-				} else {
-					alert('Erreur dans l’identifiant ou le mot de passe');
-				}
+const getToken = () => {
+	if (form === null) {
+		console.log('you are not on logged in or in the login page');
+	} else {
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			let userEmail = document.getElementById('email').value;
+			let userPassword = document.getElementById('password').value;
+
+			fetch('http://localhost:5678/api/users/login', {
+				method: 'POST',
+				body: JSON.stringify({
+					email: userEmail,
+					password: userPassword,
+				}),
+				headers: {
+					'Content-type': 'application/json; charset=UTF-8',
+				},
 			})
-			.then((data) => {
-				myToken = data.token;
-			})
-			.then(() => {
-				console.log(myToken);
-				localStorage.setItem('token', myToken);
-				document.location = `index.html`;
-			});
-	});
-}
+				.then(function (response) {
+					if (response.ok) {
+						return response.json();
+					} else {
+						alert('Erreur dans l’identifiant ou le mot de passe');
+					}
+				})
+				.then((data) => {
+					myToken = data.token;
+				})
+				.then(() => {
+					console.log(myToken);
+					localStorage.setItem('token', myToken);
+					document.location = `index.html`;
+				});
+		});
+	}
+};
+
+getToken();
+
 const editHeader = document.getElementById('editHeader');
 const log = document.getElementById('log');
 const modifyProject = document.getElementById('modifyProject');
@@ -168,39 +179,54 @@ function closeModalFunction() {
 
 closeModalFunction();
 
-let click = 0;
+const listToDelete = [];
 
 document.addEventListener('click', function (event) {
 	if (event.target.matches('.fa-trash-can')) {
-		click += 1;
+		/* click += 1;
 		let deleteFigure = event.target.closest('figure');
-		localStorage.setItem(`id${click}`, deleteFigure.firstChild.title);
+		localStorage.setItem(`id${click}`, deleteFigure.firstChild.title); */
+		let deleteFigure = event.target.closest('figure');
+
+		listToDelete.push(deleteFigure.firstChild.title);
 		deleteFigure.style.display = 'none';
+		console.log(listToDelete);
 	}
 });
-
-window.onbeforeunload = function () {
-	localStorage.clear();
-	/* logout admin if page refresh */
-};
 
 const myHeaders = new Headers();
 
 const validateChanges = document.getElementById('publishChanges');
-validateChanges.addEventListener('click', () => {
+validateChanges.addEventListener('click', (e) => {
+	e.preventDefault();
 	if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
-		for (i = 0; i < localStorage.length; i++) {
-			let projectDelete = localStorage.getItem(`id${i}`);
-			if (projectDelete !== null) {
-				myToken = localStorage.getItem('token');
-				myHeaders.append('Authorization', `Bearer ${myToken}`);
-				fetch(`http://localhost:5678/api/works/${projectDelete}`, {
-					method: 'DELETE',
-					headers: myHeaders,
-				}).then((response) => response.json());
-			}
+		for (i of listToDelete) {
+			myToken = localStorage.getItem('token');
+			myHeaders.append('Authorization', `Bearer ${myToken}`);
+			fetch(`http://localhost:5678/api/works/${i}`, {
+				method: 'DELETE',
+				headers: myHeaders,
+			}).then((response) => {
+				if (response.ok) {
+					console.log('ok');
+					const gallery = document
+						.getElementsByClassName('gallery')
+						.item(0);
+					gallery.innerHTML = '';
+					updateGallery();
+					listToDelete.shift();
+				}
+			});
 		}
 	} else {
 		alert(`vos modifications n'ont pas été envoyé`);
 	}
 });
+
+/* let figureDelete = event.target.closest('figure');
+let imgDelete = figureDelete.firstChild;
+let urlDelete = imgDelete.getAttribute('src');
+let url = new URL(urlDelete);
+let searchParam = url.searchParams;
+listToDelete.push(searchParam.get('id'));
+console.log(listToDelete); */

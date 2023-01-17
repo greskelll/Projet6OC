@@ -55,7 +55,34 @@
 						<span id="closeModify">&times;</span>
 					</div>
 					<input id="addImg" type="submit" value="Ajouter une photo">
-				</div>				
+				</div>
+				<div class="modalContent">
+					<div class="modalTitle">
+						<span id="backModal">&larr;</span>
+						<h3>Ajout photo</h3>
+						<span id="closeModify">&times;</span>
+					</div>
+					<form method="POST">
+						<div class="form">
+							<label for="email">E-mail</label>
+							<input type="email" name="email" id="email" value="" required>
+						</div>
+						<div class="form">
+							<label for="title">Titre</label>
+							<input type="text" name="title" id="title" value="" required>
+						</div>
+						<div class="form">
+							<label for="categ">categories</label>
+							<select  name="categ" id="categ">
+								<option value="1">Objets</option>
+								<option value="2">Appartements</option>
+								<option value="3">Hotels & restaurants</option>
+							</select>
+						</div>
+						<input id="addValid" type="submit" value="Valider">
+					</form>
+					
+				</div>
 			</div>
 		</div>
 		<div class="categories">
