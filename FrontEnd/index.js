@@ -233,22 +233,19 @@ addProject.addEventListener('submit', function (e) {
 	formData.append('image', photo);
 	formData.append('title', title);
 	formData.append('category', category);
-
+	myToken = localStorage.getItem('token');
 	myHeaders.append('Authorization', `Bearer ${myToken}`);
 	fetch('http://localhost:5678/api/works', {
 		method: 'POST',
 		body: formData,
 		headers: myHeaders,
 	})
-		.then((reponse) => {
-			if (response.ok) {
-				output.src = '';
-				outputSize(0.1, 0.1);
-				document.querySelector('.photoSubmit label').style.display =
-					'flex';
-			}
+		.then(() => {
+			output.src = '';
+			outputSize(0.1, 0.1);
+			document.querySelector('.photoSubmit label').style.display = 'flex';
 		})
-		.catch((err) => {
+		.catch(() => {
 			alert(`échec de l'envoi`);
 			output.src = '';
 			outputSize(0.1, 0.1);
