@@ -62,24 +62,25 @@
 						<h3>Ajout photo</h3>
 						<span id="closeModify">&times;</span>
 					</div>
-					<form method="POST">
-						<div class="form">
-							<label for="email">E-mail</label>
-							<input type="email" name="email" id="email" value="" required>
+					<form method="POST" enctype="multipart/form-data" id="addProject">
+						<div class="photoSubmit">
+							<label for="photo"><i class="fa-regular fa-image"></i><span>+ AJouter photo</span><span>jpg, png : 4mo max</span></label>
+							<input type="file" name="photo" id="photo" accept=".png, .jpg" onchange="loadFile(event)">
+							<img id="output">
 						</div>
 						<div class="form">
 							<label for="title">Titre</label>
 							<input type="text" name="title" id="title" value="" required>
 						</div>
 						<div class="form">
-							<label for="categ">categories</label>
-							<select  name="categ" id="categ">
+							<label for="category">categories</label>
+							<select  name="category" id="category">
 								<option value="1">Objets</option>
 								<option value="2">Appartements</option>
 								<option value="3">Hotels & restaurants</option>
 							</select>
 						</div>
-						<input id="addValid" type="submit" value="Valider">
+						<input id="addValid" type="submit"value="Valider">
 					</form>
 					
 				</div>

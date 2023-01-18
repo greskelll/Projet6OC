@@ -222,11 +222,47 @@ validateChanges.addEventListener('click', (e) => {
 		alert(`vos modifications n'ont pas été envoyé`);
 	}
 });
+const photo = document.getElementById('photo').files[0];
 
-/* let figureDelete = event.target.closest('figure');
-let imgDelete = figureDelete.firstChild;
-let urlDelete = imgDelete.getAttribute('src');
-let url = new URL(urlDelete);
-let searchParam = url.searchParams;
-listToDelete.push(searchParam.get('id'));
-console.log(listToDelete); */
+const addProject = document.getElementById('addProject');
+addProject.addEventListener('submit', function (e) {
+	e.preventDefault();
+	const title = document.getElementById('title').value;
+	const category = document.getElementById('category').value;
+	const formData = new FormData();
+	formData.append('image', photo);
+	formData.append('title', title);
+	formData.append('category', category);
+
+	myHeaders.append('Authorization', `Bearer ${myToken}`);
+	fetch('http://localhost:5678/api/works', {
+		method: 'POST',
+		body: formData,
+		headers: myHeaders,
+	})
+		.then((reponse) => {
+			if (response.ok) {
+				output.src = '';
+				outputSize(0.1, 0.1);
+				document.querySelector('.photoSubmit label').style.display =
+					'flex';
+			}
+		})
+		.catch((err) => {
+			alert(`échec de l'envoi`);
+			output.src = '';
+			outputSize(0.1, 0.1);
+			document.querySelector('.photoSubmit label').style.display = 'flex';
+		});
+});
+const output = document.getElementById('output');
+const loadFile = function (event) {
+	output.src = URL.createObjectURL(event.target.files[0]);
+	outputSize(100, 150);
+	document.querySelector('.photoSubmit label').style.display = 'none';
+};
+
+function outputSize(width, height) {
+	output.style.width = `${width}px`;
+	output.style.height = `${height}px`;
+}
