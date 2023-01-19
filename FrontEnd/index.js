@@ -200,9 +200,9 @@ const validateChanges = document.getElementById('publishChanges');
 validateChanges.addEventListener('click', (e) => {
 	e.preventDefault();
 	if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
+		myToken = localStorage.getItem('token');
+		myHeaders.append('Authorization', `Bearer ${myToken}`);
 		for (i of listToDelete) {
-			myToken = localStorage.getItem('token');
-			myHeaders.append('Authorization', `Bearer ${myToken}`);
 			fetch(`http://localhost:5678/api/works/${i}`, {
 				method: 'DELETE',
 				headers: myHeaders,
@@ -222,14 +222,15 @@ validateChanges.addEventListener('click', (e) => {
 		alert(`vos modifications n'ont pas été envoyé`);
 	}
 });
-const photo = document.getElementById('photo').files[0];
+
+const formData = new FormData();
 
 const addProject = document.getElementById('addProject');
 addProject.addEventListener('submit', function (e) {
 	e.preventDefault();
+	const photo = document.getElementById('photo').files[0];
 	const title = document.getElementById('title').value;
 	const category = document.getElementById('category').value;
-	const formData = new FormData();
 	formData.append('image', photo);
 	formData.append('title', title);
 	formData.append('category', category);
