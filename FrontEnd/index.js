@@ -1,72 +1,11 @@
+import { updateGallery } from './gallery.js';
+
 const myHeaders = new Headers();
 const formData = new FormData();
 
-const updateGallery = () => {
-	fetch(`http://localhost:5678/api/works`)
-		.then(function (res) {
-			if (res.ok) {
-				return res.json();
-			}
-		})
-		.then(function (value) {
-			for (let i = 0; i < value.length; i++) {
-				const newProject = document.createElement('figure');
-				newProject.innerHTML = `<img crossorigin="anonymous" title=${value[i].id} src="${value[i].imageUrl}" alt="${value[i].title}">
-				<figcaption>${value[i].title} </figcaption> `;
-				const gallery = document
-					.getElementsByClassName('gallery')
-					.item(0);
-				gallery.appendChild(newProject);
-			}
-
-			galleryPick(value);
-		})
-		.catch(function () {
-			console.log('erreur fetch api');
-		});
-};
-
-function galleryPick(res) {
-	let newArray = [];
-	for (i in res) {
-		newArray.push(res[i].categoryId);
-	}
-	console.log(newArray);
-	let figure = document.querySelectorAll('.gallery figure');
-	console.log(figure);
-
-	const objets = document.getElementById('objets');
-	const apparts = document.getElementById('apparts');
-	const hotelresto = document.getElementById('hotelresto');
-	const tous = document.getElementById('tous');
-
-	function setCategory(categoryId) {
-		for (let i = 0; i < newArray.length; i++) {
-			if (newArray[i] !== categoryId) {
-				figure[i].style.display = 'none';
-			} else if (newArray[i] == categoryId) {
-				figure[i].style.display = 'initial';
-			}
-		}
-	}
-
-	console.log(objets);
-	objets.addEventListener('click', () => setCategory(1));
-	apparts.addEventListener('click', () => setCategory(2));
-	hotelresto.addEventListener('click', () => setCategory(3));
-
-	tous.addEventListener('click', function () {
-		for (let i = 0; i < newArray.length; i++) {
-			if (newArray[i] !== 0) {
-				figure[i].style.display = 'initial';
-			}
-		}
-	});
-}
-
 let myToken;
-
 const form = document.getElementById('loginForm');
+
 if (form === null) {
 	console.log('you are not on logged in or in the login page');
 } else {
@@ -103,37 +42,34 @@ if (form === null) {
 	});
 }
 
-const editHeader = document.getElementById('editHeader');
-const log = document.getElementById('log');
-const modifyProject = document.getElementById('modifyProject');
-const header = document.getElementById('classicHeader');
-console.log(editHeader);
-if (localStorage.getItem('token') === null) {
-	editHeader.style.display = 'none';
-	modifyProject.style.display = 'none';
-} else {
-	editHeader.style.display = 'flex';
-	modifyProject.style.display = 'flex';
-	header.style.margin = '100px 0';
-	log.innerHTML = '<a href="login.html" >logout</a>';
-	log.addEventListener('click', function (e) {
-		e.preventDefault();
-		localStorage.clear();
-		location.reload();
+function HeaderVisibility() {
+	const editHeader = document.getElementById('editHeader');
+	const log = document.getElementById('log');
+	const modifyProject = document.getElementById('modifyProject');
+	const header = document.getElementById('classicHeader');
+	console.log(editHeader);
+	if (localStorage.getItem('token') === null) {
+		editHeader.style.display = 'none';
+		modifyProject.style.display = 'none';
+	} else {
+		editHeader.style.display = 'flex';
+		modifyProject.style.display = 'flex';
+		header.style.margin = '100px 0';
+		log.innerHTML = '<a href="login.html" >logout</a>';
+		log.addEventListener('click', function (e) {
+			e.preventDefault();
+			localStorage.clear();
+			location.reload();
+		});
+	}
+}
+function openModal() {
+	let openModify = document.getElementById('openModify');
+	openModify.addEventListener('click', () => {
+		let modal = document.getElementById('modal');
+		modal.style.display = 'flex';
 	});
 }
-
-let openModify = document.getElementById('openModify');
-openModify.addEventListener('click', () => {
-	let modal = document.getElementById('modal');
-	modal.style.display = 'flex';
-});
-
-let closeModify = document.getElementById('closeModify');
-closeModify.addEventListener('click', () => {
-	let modal = document.getElementById('modal');
-	modal.style.display = 'none';
-});
 
 fetch(`http://localhost:5678/api/works`)
 	.then(function (res) {
@@ -173,22 +109,18 @@ function closeModalFunction() {
 	});
 }
 
-closeModalFunction();
-
 const listToDelete = [];
 
-document.addEventListener('click', function (event) {
-	if (event.target.matches('.fa-trash-can')) {
-		/* click += 1;
-		let deleteFigure = event.target.closest('figure');
-		localStorage.setItem(`id${click}`, deleteFigure.firstChild.title); */
-		let deleteFigure = event.target.closest('figure');
-
-		listToDelete.push(deleteFigure.firstChild.title);
-		deleteFigure.style.display = 'none';
-		console.log(listToDelete);
-	}
-});
+function ProjectToBeDel() {
+	document.addEventListener('click', function (event) {
+		if (event.target.matches('.fa-trash-can')) {
+			let deleteFigure = event.target.closest('figure');
+			listToDelete.push(deleteFigure.firstChild.title);
+			deleteFigure.style.display = 'none';
+			console.log(listToDelete);
+		}
+	});
+}
 
 function validateChanges() {
 	const publishChanges = document.getElementById('publishChanges');
@@ -197,6 +129,7 @@ function validateChanges() {
 		if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
 			myToken = localStorage.getItem('token');
 			myHeaders.append('Authorization', `Bearer ${myToken}`);
+
 			for (i of listToDelete) {
 				fetch(`http://localhost:5678/api/works/${i}`, {
 					method: 'DELETE',
@@ -204,17 +137,18 @@ function validateChanges() {
 				}).then((response) => {
 					if (response.ok) {
 						console.log('ok');
-						const gallery = document
-							.getElementsByClassName('gallery')
-							.item(0);
-						gallery.innerHTML = '';
-						updateGallery();
 						listToDelete.shift();
+						if (listToDelete.length === 0) {
+							const gallery =
+								document /* appel plusieurs fois l'api */
+									.getElementsByClassName('gallery')
+									.item(0);
+							gallery.innerHTML = '';
+							updateGallery();
+						}
 					}
 				});
 			}
-		} else {
-			alert(`vos modifications n'ont pas été envoyé`);
 		}
 	});
 }
@@ -286,3 +220,7 @@ openAddNewProject();
 addProject();
 updateGallery();
 validateChanges();
+HeaderVisibility();
+openModal();
+closeModalFunction();
+ProjectToBeDel();
