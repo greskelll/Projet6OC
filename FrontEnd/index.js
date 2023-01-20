@@ -1,3 +1,6 @@
+const myHeaders = new Headers();
+const formData = new FormData();
+
 const updateGallery = () => {
 	fetch(`http://localhost:5678/api/works`)
 		.then(function (res) {
@@ -22,7 +25,6 @@ const updateGallery = () => {
 			console.log('erreur fetch api');
 		});
 };
-updateGallery();
 
 function galleryPick(res) {
 	let newArray = [];
@@ -62,50 +64,44 @@ function galleryPick(res) {
 	});
 }
 
-/* login */
-
 let myToken;
-const form = document.getElementById('form2');
 
-const getToken = () => {
-	if (form === null) {
-		console.log('you are not on logged in or in the login page');
-	} else {
-		form.addEventListener('submit', function (e) {
-			e.preventDefault();
-			let userEmail = document.getElementById('email').value;
-			let userPassword = document.getElementById('password').value;
+const form = document.getElementById('loginForm');
+if (form === null) {
+	console.log('you are not on logged in or in the login page');
+} else {
+	form.addEventListener('submit', function (e) {
+		e.preventDefault();
+		let userEmail = document.getElementById('email').value;
+		let userPassword = document.getElementById('password').value;
 
-			fetch('http://localhost:5678/api/users/login', {
-				method: 'POST',
-				body: JSON.stringify({
-					email: userEmail,
-					password: userPassword,
-				}),
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
+		fetch('http://localhost:5678/api/users/login', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: userEmail,
+				password: userPassword,
+			}),
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			},
+		})
+			.then(function (response) {
+				if (response.ok) {
+					return response.json();
+				} else {
+					alert('Erreur dans l’identifiant ou le mot de passe');
+				}
 			})
-				.then(function (response) {
-					if (response.ok) {
-						return response.json();
-					} else {
-						alert('Erreur dans l’identifiant ou le mot de passe');
-					}
-				})
-				.then((data) => {
-					myToken = data.token;
-				})
-				.then(() => {
-					console.log(myToken);
-					localStorage.setItem('token', myToken);
-					document.location = `index.html`;
-				});
-		});
-	}
-};
-
-getToken();
+			.then((data) => {
+				myToken = data.token;
+			})
+			.then(() => {
+				console.log(myToken);
+				localStorage.setItem('token', myToken);
+				document.location = `index.html`;
+			});
+	});
+}
 
 const editHeader = document.getElementById('editHeader');
 const log = document.getElementById('log');
@@ -194,73 +190,99 @@ document.addEventListener('click', function (event) {
 	}
 });
 
-const myHeaders = new Headers();
+function validateChanges() {
+	const publishChanges = document.getElementById('publishChanges');
+	publishChanges.addEventListener('click', (e) => {
+		e.preventDefault();
+		if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
+			myToken = localStorage.getItem('token');
+			myHeaders.append('Authorization', `Bearer ${myToken}`);
+			for (i of listToDelete) {
+				fetch(`http://localhost:5678/api/works/${i}`, {
+					method: 'DELETE',
+					headers: myHeaders,
+				}).then((response) => {
+					if (response.ok) {
+						console.log('ok');
+						const gallery = document
+							.getElementsByClassName('gallery')
+							.item(0);
+						gallery.innerHTML = '';
+						updateGallery();
+						listToDelete.shift();
+					}
+				});
+			}
+		} else {
+			alert(`vos modifications n'ont pas été envoyé`);
+		}
+	});
+}
 
-const validateChanges = document.getElementById('publishChanges');
-validateChanges.addEventListener('click', (e) => {
-	e.preventDefault();
-	if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
+const addProjectForm =
+	document.getElementById('addProject'); /* à utliser pour reset form ? */
+
+function addProject() {
+	addProjectForm.addEventListener('submit', function (e) {
+		e.preventDefault();
+		const photo = document.getElementById('photo').files[0];
+		const title = document.getElementById('title').value;
+		const category = document.getElementById('category').value;
+		formData.append('image', photo);
+		formData.append('title', title);
+		formData.append('category', category);
 		myToken = localStorage.getItem('token');
 		myHeaders.append('Authorization', `Bearer ${myToken}`);
-		for (i of listToDelete) {
-			fetch(`http://localhost:5678/api/works/${i}`, {
-				method: 'DELETE',
-				headers: myHeaders,
-			}).then((response) => {
-				if (response.ok) {
-					console.log('ok');
-					const gallery = document
-						.getElementsByClassName('gallery')
-						.item(0);
-					gallery.innerHTML = '';
-					updateGallery();
-					listToDelete.shift();
-				}
-			});
-		}
-	} else {
-		alert(`vos modifications n'ont pas été envoyé`);
-	}
-});
-
-const formData = new FormData();
-
-const addProject = document.getElementById('addProject');
-addProject.addEventListener('submit', function (e) {
-	e.preventDefault();
-	const photo = document.getElementById('photo').files[0];
-	const title = document.getElementById('title').value;
-	const category = document.getElementById('category').value;
-	formData.append('image', photo);
-	formData.append('title', title);
-	formData.append('category', category);
-	myToken = localStorage.getItem('token');
-	myHeaders.append('Authorization', `Bearer ${myToken}`);
-	fetch('http://localhost:5678/api/works', {
-		method: 'POST',
-		body: formData,
-		headers: myHeaders,
-	})
-		.then(() => {
-			output.src = '';
-			outputSize(0.1, 0.1);
-			document.querySelector('.photoSubmit label').style.display = 'flex';
+		fetch('http://localhost:5678/api/works', {
+			method: 'POST',
+			body: formData,
+			headers: myHeaders,
 		})
-		.catch(() => {
-			alert(`échec de l'envoi`);
-			output.src = '';
-			outputSize(0.1, 0.1);
-			document.querySelector('.photoSubmit label').style.display = 'flex';
-		});
-});
-const output = document.getElementById('output');
+			.then(() => {
+				output.src = '';
+				outputSize(0.1, 0.1);
+				document.querySelector('.photoSubmit label').style.display =
+					'flex';
+			})
+			.catch(() => {
+				alert(`échec de l'envoi`);
+				output.src = '';
+				outputSize(0.1, 0.1);
+				document.querySelector('.photoSubmit label').style.display =
+					'flex';
+			});
+	});
+}
+
+function outputSize(width, height) {
+	const output = document.getElementById('output');
+	output.style.width = `${width}px`;
+	output.style.height = `${height}px`;
+}
 const loadFile = function (event) {
 	output.src = URL.createObjectURL(event.target.files[0]);
 	outputSize(100, 150);
 	document.querySelector('.photoSubmit label').style.display = 'none';
 };
 
-function outputSize(width, height) {
-	output.style.width = `${width}px`;
-	output.style.height = `${height}px`;
+function openAddNewProject() {
+	document.getElementById('addImg').addEventListener('click', () => {
+		document.getElementById('addProjectModal').style.visibility = 'visible';
+		document.getElementById('delProjectModal').style.visibility =
+			'collapse';
+	});
 }
+
+function backToDeleteProject() {
+	document.getElementById('backModal').addEventListener('click', () => {
+		document.getElementById('addProjectModal').style.visibility =
+			'collapse';
+		document.getElementById('delProjectModal').style.visibility = 'visible';
+	});
+}
+
+backToDeleteProject();
+openAddNewProject();
+addProject();
+updateGallery();
+validateChanges();
