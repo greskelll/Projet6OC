@@ -139,10 +139,9 @@ function validateChanges() {
 						console.log('ok');
 						listToDelete.shift();
 						if (listToDelete.length === 0) {
-							const gallery =
-								document /* appel plusieurs fois l'api */
-									.getElementsByClassName('gallery')
-									.item(0);
+							const gallery = document
+								.getElementsByClassName('gallery')
+								.item(0);
 							gallery.innerHTML = '';
 							updateGallery();
 						}
@@ -177,6 +176,11 @@ function addProject() {
 				outputSize(0.1, 0.1);
 				document.querySelector('.photoSubmit label').style.display =
 					'flex';
+				const gallery = document
+					.getElementsByClassName('gallery')
+					.item(0);
+				gallery.innerHTML = '';
+				updateGallery();
 			})
 			.catch(() => {
 				alert(`échec de l'envoi`);
