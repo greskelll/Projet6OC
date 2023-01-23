@@ -130,7 +130,7 @@ function validateChanges() {
 			myToken = localStorage.getItem('token');
 			myHeaders.append('Authorization', `Bearer ${myToken}`);
 
-			for (i of listToDelete) {
+			for (let i of listToDelete) {
 				fetch(`http://localhost:5678/api/works/${i}`, {
 					method: 'DELETE',
 					headers: myHeaders,
@@ -139,10 +139,9 @@ function validateChanges() {
 						console.log('ok');
 						listToDelete.shift();
 						if (listToDelete.length === 0) {
-							const gallery =
-								document /* appel plusieurs fois l'api */
-									.getElementsByClassName('gallery')
-									.item(0);
+							const gallery = document
+								.getElementsByClassName('gallery')
+								.item(0);
 							gallery.innerHTML = '';
 							updateGallery();
 						}
@@ -177,6 +176,11 @@ function addProject() {
 				outputSize(0.1, 0.1);
 				document.querySelector('.photoSubmit label').style.display =
 					'flex';
+				const gallery = document
+					.getElementsByClassName('gallery')
+					.item(0);
+				gallery.innerHTML = '';
+				updateGallery();
 			})
 			.catch(() => {
 				alert(`échec de l'envoi`);
@@ -187,23 +191,18 @@ function addProject() {
 			});
 	});
 }
-
+const output = document.getElementById('output');
 function outputSize(width, height) {
-	const output = document.getElementById('output');
 	output.style.width = `${width}px`;
 	output.style.height = `${height}px`;
 }
-const loadFile = function (event) {
-	output.src = URL.createObjectURL(event.target.files[0]);
-	outputSize(100, 150);
-	document.querySelector('.photoSubmit label').style.display = 'none';
-};
 
 function openAddNewProject() {
 	document.getElementById('addImg').addEventListener('click', () => {
 		document.getElementById('addProjectModal').style.visibility = 'visible';
 		document.getElementById('delProjectModal').style.visibility =
 			'collapse';
+		resetForm();
 	});
 }
 
@@ -224,3 +223,12 @@ HeaderVisibility();
 openModal();
 closeModalFunction();
 ProjectToBeDel();
+
+output.addEventListener('click', resetForm);
+
+function resetForm() {
+	addProjectForm.reset();
+	document.querySelector('.photoSubmit label').style.display = 'flex';
+	output.src = URL.revokeObjectURL;
+	outputSize(0.1, 0.1);
+}
