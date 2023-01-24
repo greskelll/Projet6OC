@@ -42,18 +42,21 @@ if (form === null) {
 	});
 }
 
-function HeaderVisibility() {
+function adminVisibility() {
 	const editHeader = document.getElementById('editHeader');
 	const log = document.getElementById('log');
 	const modifyProject = document.getElementById('modifyProject');
 	const header = document.getElementById('classicHeader');
+	const gallerySelector = document.querySelector('.categories');
 	console.log(editHeader);
 	if (localStorage.getItem('token') === null) {
 		editHeader.style.display = 'none';
 		modifyProject.style.display = 'none';
+		gallerySelector.style.display = 'flex';
 	} else {
 		editHeader.style.display = 'flex';
 		modifyProject.style.display = 'flex';
+		gallerySelector.style.display = 'none';
 		header.style.margin = '100px 0';
 		log.innerHTML = '<a href="login.html" >logout</a>';
 		log.addEventListener('click', function (e) {
@@ -63,6 +66,7 @@ function HeaderVisibility() {
 		});
 	}
 }
+
 function openModal() {
 	let openModify = document.getElementById('openModify');
 	openModify.addEventListener('click', () => {
@@ -118,6 +122,47 @@ function ProjectToBeDel() {
 			listToDelete.push(deleteFigure.firstChild.title);
 			deleteFigure.style.display = 'none';
 			console.log(listToDelete);
+		}
+	});
+}
+deleteGallery();
+function deleteGallery() {
+	const deleteGallery = document.getElementById('deleteGallery');
+	deleteGallery.addEventListener('click', () => {
+		if (confirm('êtes vous sûre de vouloir supprimer la gallerie?')) {
+			const gallery = document.getElementsByClassName('gallery').item(0);
+			console.log;
+			myToken = localStorage.getItem('token');
+			myHeaders.append('Authorization', `Bearer ${myToken}`);
+			const galleryChildren = gallery.children;
+			let galleryArray = [];
+
+			for (let i = 0; i < galleryChildren.length; i++) {
+				galleryArray.push(galleryChildren[i].firstChild.title);
+			}
+			for (let b of galleryArray) {
+				fetch(`http://localhost:5678/api/works/${b}`, {
+					method: 'DELETE',
+					headers: myHeaders,
+				}).then((response) => {
+					if (response.ok) {
+						console.log('ok');
+						galleryArray.shift();
+						if (galleryArray.length === 0) {
+							const gallery = document
+								.getElementsByClassName('gallery')
+								.item(0);
+							gallery.innerHTML = '';
+							updateGallery();
+						}
+					}
+				});
+			}
+
+			/* fetch(`http://localhost:5678/api/works/2`, {
+				method: 'DELETE',
+				headers: myHeaders,
+			}); */
 		}
 	});
 }
@@ -219,7 +264,7 @@ openAddNewProject();
 addProject();
 updateGallery();
 validateChanges();
-HeaderVisibility();
+adminVisibility();
 openModal();
 closeModalFunction();
 ProjectToBeDel();
