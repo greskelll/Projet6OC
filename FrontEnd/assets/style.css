@@ -249,7 +249,7 @@ form input {
 .form{
 	display: flex;
 	flex-direction: column;
-	margin: 40px;
+	margin: 20px;
 }
 
 .form input{
@@ -339,7 +339,7 @@ form input {
 
 #closeModify{
 	font-size: 24px;
-	margin: 10px 20px;
+	margin-left:230px;
 }
 
 .modalContent{
@@ -349,7 +349,6 @@ form input {
 	height: 730px;
 	padding: 20px;
 	justify-content: center;
-	align-items: center;
 	border-radius: 15px;
 	background: white;
 }
@@ -375,8 +374,9 @@ form input {
 	width:100%;
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: flex-end;
 }
+
 
 #addImg {
 	padding:15px;		
@@ -401,7 +401,7 @@ form input {
 	align-items: center;
 	margin: 30px;
 	padding-bottom: 50px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #B3B3B3;
 	height: 400px;
 	width:470px;
 }
@@ -468,6 +468,9 @@ cursor: pointer;
 
 #backModal {
 	cursor: pointer;
+	margin-right: 220px;
+	font-size: 150%;
+
 }
 
 #category {
@@ -483,6 +486,7 @@ cursor: pointer;
 	width:400px;
 	height:1px;
 	background-color: #B3B3B3;
+	margin:20px;
 }
 
 #addValid {
