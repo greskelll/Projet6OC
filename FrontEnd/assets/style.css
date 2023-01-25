@@ -268,6 +268,7 @@ form input {
 
 .login a {
 	color:inherit;
+	text-decoration: underline;
 }
 
 #editHeader {
@@ -307,7 +308,7 @@ form input {
 	align-items: center;
 }
 #myProject h2{
-	margin: 20px;
+	margin: 80px 20px;
 }
 
 #modifyProject{
@@ -329,8 +330,11 @@ form input {
 	background: rgba(0, 0, 0, 0.6);	
 }
 
-#openModify, #closeModify{
+#openModify, #closeModify, input, button{
 	cursor: pointer;
+}
+#openModify{
+	margin: 10px;
 }
 
 #closeModify{
@@ -351,8 +355,8 @@ form input {
 }
 
 .modalContent img{
-	width:100px;
-	height:130px;
+	width:78px;
+	height:104px;
 	object-fit: cover;
 	
 }
@@ -375,9 +379,20 @@ form input {
 }
 
 #addImg {
-	padding:15px;
+	padding:15px;		
+}
+
+.delProjectFooter {
 	order:1;
-	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 50px;
+}
+
+.delProjectFooter p {
+	color:red;
+	cursor: pointer;
 }
 
 .projectImg{
@@ -387,6 +402,8 @@ form input {
 	margin: 30px;
 	padding-bottom: 50px;
 	border-bottom: 1px solid black;
+	height: 400px;
+	width:470px;
 }
 
 .fa-trash-can{
@@ -404,7 +421,7 @@ cursor: pointer;
 }
 
 .photoSubmit {
-	width:300px;
+	width:400px;
 	height:200px;
 	background-color: #E8F1F7;
 	display: flex;
@@ -439,7 +456,11 @@ cursor: pointer;
 	width:0.1px;
 	height:0.1px;
 }
-
+#addProject {
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+}
 
 #addProjectModal {
 	visibility: collapse;
@@ -449,6 +470,25 @@ cursor: pointer;
 	cursor: pointer;
 }
 
+#category {
+	width:400px;
+	height:50px;
+	border:none;
+	box-shadow: 1px 5px 5px 1px #e9e9e9;
+	margin:10px auto;
+	background-color: #ffffff;
+}
+
+.separation{
+	width:400px;
+	height:1px;
+	background-color: #B3B3B3;
+}
+
+#addValid {
+	background-color: #A7A7A7;
+	width:220px;
+}
 
 
 

@@ -60,3 +60,28 @@ function galleryPick(res) {
 		}
 	});
 }
+
+/* modal gallery*/
+fetch(`http://localhost:5678/api/works`)
+	.then(function (res) {
+		if (res.ok) {
+			return res.json();
+		}
+	})
+	.then(function (value) {
+		const modalContent = document
+			.getElementsByClassName('modalContent')
+			.item(0);
+		const newDiv = document.createElement('div');
+		newDiv.className = 'projectImg';
+		modalContent.appendChild(newDiv);
+		for (let i = 0; i < value.length; i++) {
+			const actualProject = document.createElement('figure');
+			actualProject.innerHTML = `<img class=modImg title=${value[i].id} crossorigin="anonymous" src="${value[i].imageUrl}" alt="${value[i].title}">
+			<i class="fa-regular fa-trash-can"></i><p>éditer</p>`;
+			newDiv.appendChild(actualProject);
+		}
+	})
+	.catch(function () {
+		console.log('erreur fetch api');
+	});
