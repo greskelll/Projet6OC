@@ -69,7 +69,7 @@
 					<form method="POST" enctype="multipart/form-data" id="addProject">
 						<div class="photoSubmit">
 							<label for="photo"><i class="fa-regular fa-image"></i><span>+ AJouter photo</span><span>jpg, png : 4mo max</span></label>
-							<input type="file" name="photo" id="photo" accept=".png, .jpg" onchange="loadFile(event)">
+							<input type="file" name="photo" id="photo" accept=".png, .jpg" onchange="loadFile(event)" required>
 							<img id="output" src="" alt="">
 						</div>
 						<div class="form">
@@ -78,12 +78,14 @@
 						</div>
 						<div class="form">
 							<label for="category">categories</label>
-							<select  name="category" id="category">
+							<select  name="category" id="category" required>
+								<option value=""></option>
 								<option value="1">Objets</option>
 								<option value="2">Appartements</option>
 								<option value="3">Hotels & restaurants</option>
 							</select>
 						</div>
+						<div class="separation"></div>
 						<input id="addValid" type="submit"value="Valider">
 					</form>
 					
@@ -122,12 +124,8 @@
 	</nav>
 </footer>
 <script type="module" src="gallery.js"></script>
-<script type="module" src="index.js"></script>
-<script>const loadFile = function (event) {
-		output.src = URL.createObjectURL(event.target.files[0]);
-		output.style.width = `120px`;
-		output.style.height = `160px`;
-		document.querySelector('.photoSubmit label').style.display = 'none';
-	};</script>
+<script type="module" src="main.js"></script>
+<script src="modal.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>
