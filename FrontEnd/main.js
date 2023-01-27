@@ -115,7 +115,11 @@ function addProject() {
 		formData.append('category', category);
 		myToken = localStorage.getItem('token');
 		myHeaders.append('Authorization', `Bearer ${myToken}`);
-		if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
+		if (
+			confirm(
+				'êtes vous sûre de vouloir publier vos modifications? Ceci supprimera la liste des projets en cours de suppression'
+			)
+		) {
 			fetch('http://localhost:5678/api/works', {
 				method: 'POST',
 				body: formData,

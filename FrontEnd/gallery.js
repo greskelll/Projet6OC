@@ -22,7 +22,8 @@ export function updateGallery() {
 			console.log('erreur fetch api update gallery');
 		});
 }
-function setCategory(categoryId, newArray, figure) {
+function setCategory(categoryId, newArray) {
+	let figure = document.querySelectorAll('.gallery figure');
 	for (let i = 0; i < newArray.length; i++) {
 		if (newArray[i] !== categoryId) {
 			figure[i].style.display = 'none';
@@ -37,9 +38,6 @@ function galleryPick(id) {
 	for (let i in id) {
 		newArray.push(id[i].categoryId);
 	}
-	console.log(newArray);
-	let figure = document.querySelectorAll('.gallery figure');
-	console.log(figure);
 
 	const objets = document.getElementById('objets');
 	const apparts = document.getElementById('apparts');
@@ -47,12 +45,11 @@ function galleryPick(id) {
 	const tous = document.getElementById('tous');
 
 	console.log(objets);
-	objets.addEventListener('click', () => setCategory(1, newArray, figure));
-	apparts.addEventListener('click', () => setCategory(2, newArray, figure));
-	hotelresto.addEventListener('click', () =>
-		setCategory(3, newArray, figure)
-	);
+	objets.addEventListener('click', () => setCategory(1, newArray));
+	apparts.addEventListener('click', () => setCategory(2, newArray));
+	hotelresto.addEventListener('click', () => setCategory(3, newArray));
 	tous.addEventListener('click', function () {
+		let figure = document.querySelectorAll('.gallery figure');
 		for (let i = 0; i < newArray.length; i++) {
 			if (newArray[i] !== 0) {
 				figure[i].style.display = 'initial';
