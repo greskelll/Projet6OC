@@ -159,6 +159,7 @@ function ProjectToBeDel() {
 			listToDelete.push(deleteFigure.firstChild.title);
 			deleteFigure.style.display = 'none';
 			console.log(listToDelete);
+			alert('Pour valider la suppression:"publier les changements"');
 		}
 	});
 }
