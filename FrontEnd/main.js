@@ -115,11 +115,10 @@ function addProject() {
 		formData.append('category', category);
 		myToken = localStorage.getItem('token');
 		myHeaders.append('Authorization', `Bearer ${myToken}`);
-		if (
-			confirm(
-				'êtes vous sûre de vouloir publier vos modifications? Ceci supprimera la liste des projets en cours de suppression'
-			)
-		) {
+		if (listToDelete.length > 0) {
+			confirm('la validation annulera les suppression en cours');
+		}
+		{
 			fetch('http://localhost:5678/api/works', {
 				method: 'POST',
 				body: formData,
@@ -136,6 +135,10 @@ function addProject() {
 							.getElementsByClassName('gallery')
 							.item(0);
 						gallery.innerHTML = '';
+						const projectImg = document
+							.getElementsByClassName('projectImg')
+							.item(0);
+						projectImg.remove();
 						updateGallery();
 					}
 				})
@@ -159,7 +162,6 @@ function ProjectToBeDel() {
 			listToDelete.push(deleteFigure.firstChild.title);
 			deleteFigure.style.display = 'none';
 			console.log(listToDelete);
-			alert('Pour valider la suppression:"publier les changements"');
 		}
 	});
 }
