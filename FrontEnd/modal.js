@@ -1,25 +1,24 @@
 const loadFile = function (event) {
 	output.src = URL.createObjectURL(event.target.files[0]);
-	output.style.width = `120px`;
-	output.style.height = `160px`;
+	outputSize(140, 200);
 	document.querySelector('.photoSubmit label').style.display = 'none';
 };
 
 function openModal() {
 	let openModify = document.getElementById('openModify');
 	openModify.addEventListener('click', () => {
-		let modal = document.getElementById('modal');
-		modal.style.display = 'flex';
+		let modalContouring = document.getElementById('modalContouring');
+		modalContouring.style.display = 'flex';
 	});
 }
 function ModalNoDisplay() {
-	modal.style.display = 'none';
+	modalContouring.style.display = 'none';
 }
 function closeModal() {
 	document.addEventListener('click', function (event) {
 		if (
 			event.target.matches('#closeModify') ||
-			event.target.matches('#modal')
+			event.target.matches('#modalContouring')
 		) {
 			ModalNoDisplay();
 		}
@@ -31,7 +30,7 @@ function outputSize(width, height) {
 	output.style.height = `${height}px`;
 }
 
-const addProjectForm = document.getElementById('addProject');
+let addProjectForm = document.getElementById('addProject');
 
 function resetForm() {
 	addProjectForm.reset();
@@ -56,3 +55,9 @@ function backToDeleteProject() {
 		document.getElementById('delProjectModal').style.visibility = 'visible';
 	});
 }
+const selectElement = document.getElementById('addProject');
+const validButton = document.getElementById('addValid');
+
+selectElement.addEventListener('change', () => {
+	validButton.style.backgroundColor = '#1D6154';
+});
