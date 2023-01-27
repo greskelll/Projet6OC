@@ -19,7 +19,7 @@ export function updateGallery() {
 			galleryPick(project);
 		})
 		.catch(function () {
-			console.log('erreur fetch api');
+			console.log('erreur fetch api update gallery');
 		});
 }
 function setCategory(categoryId, newArray, figure) {
@@ -83,5 +83,5 @@ fetch(`http://localhost:5678/api/works`)
 		}
 	})
 	.catch(function () {
-		console.log('erreur fetch api');
+		console.log('erreur fetch api modal gallery');
 	});

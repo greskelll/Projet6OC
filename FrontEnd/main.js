@@ -102,7 +102,7 @@ function deleteGallery() {
 	});
 }
 
-const addProjectForm = document.getElementById('addProject');
+let addProjectForm = document.getElementById('addProject');
 
 function addProject() {
 	addProjectForm.addEventListener('submit', function (e) {
@@ -115,31 +115,34 @@ function addProject() {
 		formData.append('category', category);
 		myToken = localStorage.getItem('token');
 		myHeaders.append('Authorization', `Bearer ${myToken}`);
-		fetch('http://localhost:5678/api/works', {
-			method: 'POST',
-			body: formData,
-			headers: myHeaders,
-		})
-			.then((response) => {
-				if (response.ok) {
+		if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
+			fetch('http://localhost:5678/api/works', {
+				method: 'POST',
+				body: formData,
+				headers: myHeaders,
+			})
+				.then((response) => {
+					if (response.ok) {
+						output.src = '';
+						outputSize(0.1, 0.1);
+						document.querySelector(
+							'.photoSubmit label'
+						).style.display = 'flex';
+						const gallery = document
+							.getElementsByClassName('gallery')
+							.item(0);
+						gallery.innerHTML = '';
+						updateGallery();
+					}
+				})
+				.catch(() => {
+					alert(`échec de l'envoi`);
 					output.src = '';
 					outputSize(0.1, 0.1);
 					document.querySelector('.photoSubmit label').style.display =
 						'flex';
-					const gallery = document
-						.getElementsByClassName('gallery')
-						.item(0);
-					gallery.innerHTML = '';
-					updateGallery();
-				}
-			})
-			.catch(() => {
-				alert(`échec de l'envoi`);
-				output.src = '';
-				outputSize(0.1, 0.1);
-				document.querySelector('.photoSubmit label').style.display =
-					'flex';
-			});
+				});
+		}
 	});
 }
 
