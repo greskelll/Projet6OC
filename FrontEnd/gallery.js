@@ -39,16 +39,14 @@ function galleryPick(id) {
 		newArray.push(id[i].categoryId);
 	}
 
-	const objets = document.getElementById('objets');
-	const apparts = document.getElementById('apparts');
-	const hotelresto = document.getElementById('hotelresto');
-	const tous = document.getElementById('tous');
-
-	console.log(objets);
-	objets.addEventListener('click', () => setCategory(1, newArray));
-	apparts.addEventListener('click', () => setCategory(2, newArray));
-	hotelresto.addEventListener('click', () => setCategory(3, newArray));
-	tous.addEventListener('click', function () {
+	const object = document.getElementById('object');
+	const flats = document.getElementById('flats');
+	const hostel = document.getElementById('hostel');
+	const allProject = document.getElementById('allProject');
+	object.addEventListener('click', () => setCategory(1, newArray));
+	flats.addEventListener('click', () => setCategory(2, newArray));
+	hostel.addEventListener('click', () => setCategory(3, newArray));
+	allProject.addEventListener('click', function () {
 		let figure = document.querySelectorAll('.gallery figure');
 		for (let i = 0; i < newArray.length; i++) {
 			if (newArray[i] !== 0) {
