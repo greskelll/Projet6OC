@@ -115,7 +115,10 @@ function addProject() {
 		formData.append('category', category);
 		myToken = localStorage.getItem('token');
 		myHeaders.append('Authorization', `Bearer ${myToken}`);
-		if (confirm('êtes vous sûre de vouloir publier vos modifications?')) {
+		if (listToDelete.length > 0) {
+			confirm('la validation annulera les suppression en cours');
+		}
+		{
 			fetch('http://localhost:5678/api/works', {
 				method: 'POST',
 				body: formData,
@@ -132,6 +135,10 @@ function addProject() {
 							.getElementsByClassName('gallery')
 							.item(0);
 						gallery.innerHTML = '';
+						const projectImg = document
+							.getElementsByClassName('projectImg')
+							.item(0);
+						projectImg.remove();
 						updateGallery();
 					}
 				})
@@ -176,6 +183,10 @@ function validateChanges() {
 						console.log('ok');
 						listToDelete.shift();
 						if (listToDelete.length === 0) {
+							const projectImg = document
+								.getElementsByClassName('projectImg')
+								.item(0);
+							projectImg.remove();
 							const gallery = document
 								.getElementsByClassName('gallery')
 								.item(0);

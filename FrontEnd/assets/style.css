@@ -147,25 +147,30 @@ li:hover {
 	font-family: 'Syne';
 	font-size: 16px;
 }
-.categories button:active{
+.categories button:focus{
 	color:white;
 	background-color: #1D6154;
 }
 
-
+#portfolio {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 .gallery {
-	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	width:990px;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.gallery figure {
+	margin: 10px;
 }
 
 .gallery img {
 	width: 310px;
 	height:420px;
 	object-fit: cover;
-
 }
 #contact {
 	width: 50%;
@@ -216,8 +221,6 @@ footer nav ul {
 	margin: 2em
 }
 
-/* css login*/
-
 #footer-login {
 	position: fixed;
     height: 60px;
@@ -244,6 +247,7 @@ form input {
 	padding: 10px 20px;
 	border: none;
 	font-size: 14px;
+	justify-content: center;
 }
 
 .form{
@@ -316,8 +320,6 @@ form input {
 	align-items: center;
 }
 
-/* modal */
-
 #modalContouring{
 	display: none;
 	align-items: center;
@@ -362,7 +364,7 @@ form input {
 .modalContent h3{
 	text-align: center;
 	font-size: large;
-	margin: 15px;
+	margin: 30px 15px;
 	align-self: flex-start;
 }
 
@@ -404,6 +406,13 @@ form input {
 	border-bottom: 1px solid #B3B3B3;
 	height: 400px;
 	width:470px;
+	overflow: scroll;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.projectImg::-webkit-scrollbar{
+	display: none;
 }
 
 .fa-trash-can{
@@ -492,6 +501,16 @@ cursor: pointer;
 #addValid {
 	background-color: #A7A7A7;
 	width:220px;
+}
+
+#addPhotoField {
+	border:none;
+	background-color: #CBD6DC;
+	color:#306685;
+	margin: 10px;
+	padding: 15px 20px;
+	border-radius: 25px;
+	font-size: 14px;
 }
 
 
