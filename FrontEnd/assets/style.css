@@ -247,6 +247,7 @@ form input {
 	padding: 10px 20px;
 	border: none;
 	font-size: 14px;
+	justify-content: center;
 }
 
 .form{

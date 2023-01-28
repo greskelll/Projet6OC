@@ -183,6 +183,10 @@ function validateChanges() {
 						console.log('ok');
 						listToDelete.shift();
 						if (listToDelete.length === 0) {
+							const projectImg = document
+								.getElementsByClassName('projectImg')
+								.item(0);
+							projectImg.remove();
 							const gallery = document
 								.getElementsByClassName('gallery')
 								.item(0);
