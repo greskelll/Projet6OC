@@ -67,28 +67,3 @@ function galleryPick(id) {
 		}
 	});
 }
-
-/* modal gallery*/
-/* fetch(`http://localhost:5678/api/works`)
-	.then(function (response) {
-		if (response.ok) {
-			return response.json();
-		}
-	})
-	.then(function (project) {
-		const modalContent = document
-			.getElementsByClassName('modalContent')
-			.item(0);
-		const newDiv = document.createElement('div');
-		newDiv.className = 'projectImg';
-		modalContent.appendChild(newDiv);
-		for (let i = 0; i < project.length; i++) {
-			const actualProject = document.createElement('figure');
-			actualProject.innerHTML = `<img class=modImg title=${project[i].id} crossorigin="anonymous" src="${project[i].imageUrl}" alt="${project[i].title}">
-			<i class="fa-regular fa-trash-can"></i><p>éditer</p>`;
-			newDiv.appendChild(actualProject);
-		}
-	})
-	.catch(function () {
-		console.log('erreur fetch api modal gallery');
-	}); */
